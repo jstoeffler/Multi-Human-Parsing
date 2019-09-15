@@ -84,22 +84,25 @@ class data_provider():
         self.data = []
         cnt = 0
         for i in f:
-            i = i.strip()
-            segfile = i.split('\t')[1]
-            jpgfile = i.split('\t')[0]
-            jpg = img_reader.read_img(jpgfile,500,padding=True)
-            seg = self.read_label(segfile)
-            seg = img_reader.pad(seg,np.uint8,False)
-            seg[seg!=15] = 0
-            seg[seg==15] = 1
-            if seg.shape[0]!=500:
-                print(segfile)
-                continue
-            self.data.append([jpg,seg])
-            self.fnames.append(jpgfile)
-            cnt += 1
-            if cnt%100==0:
-                print(cnt)
+            try:
+                i = i.strip()
+                segfile = i.split('\t')[1]
+                jpgfile = i.split('\t')[0]
+                jpg = img_reader.read_img(jpgfile,500,padding=True)
+                seg = self.read_label(segfile)
+                seg = img_reader.pad(seg,np.uint8,False)
+                seg[seg!=15] = 0
+                seg[seg==15] = 1
+                if seg.shape[0]!=500:
+                    print(segfile)
+                    continue
+                self.data.append([jpg,seg])
+                self.fnames.append(jpgfile)
+                cnt += 1
+                if cnt%100==0:
+                    print(cnt)
+            except:
+                pass
         print('Data length:',len(self.data))
 
     def next_batch(self,BSIZE):
