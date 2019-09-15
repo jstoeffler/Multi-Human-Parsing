@@ -95,8 +95,8 @@ class data_provider():
         cnt = 0
         for i in f:
             i = i.strip()
-            jpgfile = './data/reform_img/'+i
-            segfile = './data/reform_annot/'+i.replace('.jpg','.png')
+            segfile = i.split('\t')[1]
+            jpgfile = i.split('\t')[0]
             jpg = img_reader.read_img(jpgfile,500,padding=True)
             seg = self.read_label(segfile)
             seg = img_reader.pad(seg,np.uint8,False)
@@ -172,7 +172,7 @@ def color_map(N=256, normalized=False):
 
 # Training
 
-reader = data_provider('train_list.txt')
+reader = data_provider('lv-mhp-v2.txt')
 with tf.variable_scope('seg_part'):
 	net = network(21)
 

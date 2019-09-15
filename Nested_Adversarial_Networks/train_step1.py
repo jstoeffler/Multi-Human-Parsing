@@ -85,8 +85,8 @@ class data_provider():
         cnt = 0
         for i in f:
             i = i.strip()
-            segfile = i
-            jpgfile = i.replace('SegmentationClass','JPEGImages').replace('.png','.jpg')
+            segfile = i.split('\t')[1]
+            jpgfile = i.split('\t')[0]
             jpg = img_reader.read_img(jpgfile,500,padding=True)
             seg = self.read_label(segfile)
             seg = img_reader.pad(seg,np.uint8,False)
@@ -131,7 +131,7 @@ class data_provider():
         img = np.array(im,np.uint8)
         return img
 
-reader = data_provider('train.list')
+reader = data_provider('lv-mhp-v2.txt')
 
 with tf.variable_scope('bg_fg'):
     net = network()

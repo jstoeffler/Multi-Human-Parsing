@@ -349,7 +349,7 @@ class data_reader():
         return img
 
 
-reader = data_provider('train.list')
+reader = data_provider('lv-mhp-v2.txt')
 
 net = network()
 
